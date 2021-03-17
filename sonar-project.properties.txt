@@ -1,0 +1,20 @@
+    # Información del proyecto
+    sonar.projectKey=co.com.ceiba.ADNCeiba:sergio.jaramillo_HealthDates
+    sonar.projectName=ADNCeiba-HealthDates
+    sonar.projectDescription=Ejemplo de la versión 4.5 de Gradle
+    sonar.projectVersion=1.0
+
+    #Datos de los fuentes y binarios
+    sonar.sources=src/main/java
+    sonar.java.binaries=build/classes/java/main
+    sonar.java.libraries=/home/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
+    sonar.java.source=1.8
+
+    #Datos de los fuentes y binarios de los tests
+    sonar.tests=src/test/java
+    sonar.java.test.binaries=build/classes/java/test
+    sonar.java.test.libraries=/home/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
+
+    #Envío de reportes de JUnit y Jacoco como resultado de la tarea test
+    sonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
+    sonar.junit.reportPaths=build/test-results/test
