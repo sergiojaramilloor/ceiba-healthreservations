@@ -14,7 +14,7 @@ pipeline {
           echo "------------>Checkout<------------"
             checkout([
                 $class: 'GitSCM',
-                branches: [[name: '*/master']],
+                branches: [[name: '*/main']],
                 gitTools: 'Default',
                 userRemoteConfigs:[[
                     credentialsId: 'GitHub_sergiojaramilloor',
