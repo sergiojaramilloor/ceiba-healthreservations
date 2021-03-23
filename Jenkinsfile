@@ -27,9 +27,9 @@ pipeline {
     stage('Clean, Compile & Unit Tests') {
         steps{
           echo "------------>Unit Tests<------------"
-            sh 'build --b ./build.gradle clean'
-            sh 'build --b ./build.gradle compileJava'
-            sh 'build --b ./build.gradle test'
+            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean'
+            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle compileJava'
+            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle test'
         }
       }
 
