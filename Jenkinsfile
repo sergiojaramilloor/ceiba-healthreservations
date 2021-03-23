@@ -5,7 +5,7 @@ pipeline {
     }
 
   options {
-        	buildDiscarder(logRotator(numToKeepStr: '3'))
+        buildDiscarder(logRotator(numToKeepStr: '3'))
      	disableConcurrentBuilds()
       }
 
@@ -69,8 +69,8 @@ pipeline {
             mail (to: 'sergio.jaramillo@ceiba.com.co',subject: "Failed Pipeline:${currentBuild.fullDisplayName}",body: "Something is wrong with ${env.BUILD_URL}")
     }
     success {
-    		echo 'This will run only if successful'
-        }
+    	echo 'This will run only if successful'
+    }
   }
 
 }
