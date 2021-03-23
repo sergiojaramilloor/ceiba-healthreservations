@@ -7,7 +7,7 @@
 
     #Datos de los fuentes y binarios
     sonar.sources=healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/src/main/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/src/main/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/src/main/java
-    sonar.java.binaries=build/classes/java/main,build/classes/java/main,build/classes/java/main
+    sonar.java.binaries=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/build/classes/java/main
     sonar.java.libraries=/opt/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
     sonar.java.source=1.8
 
