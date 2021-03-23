@@ -24,11 +24,9 @@ pipeline {
         }
       }
 
-    stage('Clean, Compile & Unit Tests') {
+    stage('Compile & Unit Tests') {
         steps{
           echo "------------>Unit Tests<------------"
-            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean'
-            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle compileJava'
             sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle test'
         }
       }
@@ -45,6 +43,7 @@ pipeline {
     stage('Build') {
           steps {
             echo "------------>Build<------------"
+            sh 'gradle --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle build -x test'
           }
         }
 
