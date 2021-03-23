@@ -41,7 +41,7 @@ pipeline {
     stage('Compile & Unit Tests') {
         steps{
           echo "------------>Unit Tests<------------"
-            sh 'build --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle test'
+            sh 'gradle --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle test'
         }
       }
 
