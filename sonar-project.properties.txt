@@ -15,3 +15,7 @@
     sonar.tests=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/src/test/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/src/test/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/src/test/java
     sonar.java.test.binaries=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/build/classes/java/test,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/build/classes/java/test,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/build/classes/java/test
     sonar.java.test.libraries=/opt/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
+
+    #Envío de reportes de JUnit y Jacoco como resultado de la tarea test
+    sonar.coverage.jacoco.xmlReportPaths=healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/build/reports/jacoco/test/jacocoTestReport.xml,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/build/reports/jacoco/test/jacocoTestReport.xml
+    sonar.junit.reportPaths=healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/build/test-results/testjava-healthCareBackend/arquitectura-hexagonal/microservicio/infraestructura/build/test-results/test
