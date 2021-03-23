@@ -27,6 +27,7 @@ pipeline {
     stage('Clean') {
         steps{
           echo "------------>Clean Project<------------"
+            sh 'chmod +x gradlew'
             sh './co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/gradlew clean'
         }
       }
