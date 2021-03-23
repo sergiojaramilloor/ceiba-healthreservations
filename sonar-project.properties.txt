@@ -8,10 +8,10 @@
     #Datos de los fuentes y binarios
     sonar.sources=healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/src/main/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/src/main/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/src/main/java
     sonar.java.binaries=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/build/classes/java/main,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/build/classes/java/main,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/build/classes/java/main
-    sonar.java.libraries=/home/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
+    sonar.java.libraries=/opt/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
     sonar.java.source=1.8
 
     #Datos de los fuentes y binarios de los tests
     sonar.tests=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/src/test/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/src/test/java,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/src/test/java
     sonar.java.test.binaries=healthCareBackend/java-arquitectura-hexagonal/microservicio/aplicacion/build/classes/java/test,healthCareBackend/java-arquitectura-hexagonal/microservicio/dominio/build/classes/java/test,healthCareBackend/java-arquitectura-hexagonal/microservicio/infraestructura/build/classes/java/test
-    sonar.java.test.libraries=/home/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
+    sonar.java.test.libraries=/opt/ic/.gradle/caches/modules-2/files-2.1/**/*.jar
