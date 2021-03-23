@@ -1,10 +1,15 @@
 pipeline {
 
-  agent any
+  agent 'Slave_Induccion'
+
+  options {
+        	buildDiscarder(logRotator(numToKeepStr: '3'))
+     	disableConcurrentBuilds()
+      }
 
   tools {
     jdk 'JDK8_Centos'
-    gradle 'Gradle4.5_Centos'
+    gradle 'Gradle5.6_Centos'
   }
 
   stages {
