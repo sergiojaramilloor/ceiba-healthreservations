@@ -24,6 +24,13 @@ pipeline {
         }
       }
 
+    stage('Clean') {
+        steps{
+          echo "------------>Clean Project<------------"
+            sh 'gradle --b ./build.gradle clean'
+        }
+      }
+
     stage('Compile & Unit Tests') {
         steps{
           echo "------------>Unit Tests<------------"
