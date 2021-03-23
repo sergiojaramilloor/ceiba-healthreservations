@@ -34,7 +34,7 @@ pipeline {
     stage('Clean') {
         steps{
           echo "------------>Clean Project<------------"
-            sh 'gradle --b ./healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean'
+            sh 'gradle --b ./healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean compileJava'
         }
       }
 
