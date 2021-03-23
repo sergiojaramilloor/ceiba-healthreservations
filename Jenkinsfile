@@ -34,7 +34,7 @@ pipeline {
           echo "------------>Clean Project<------------"
             sh 'gradle --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean'
         }
-      }
+      } 
 
     stage('Compile & Unit Tests') {
         steps{
