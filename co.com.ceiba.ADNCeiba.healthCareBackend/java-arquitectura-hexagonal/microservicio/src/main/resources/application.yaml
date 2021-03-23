@@ -1,0 +1,21 @@
+jasypt:
+   encryptor:
+      password: ${jasyptpwd:secretkey}
+      algorithm: PBEWithMD5AndDES
+
+server:
+   port: 8082
+   servlet:
+      context-path: /reserva
+      session:
+         timeout: 21600s
+
+spring:
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:mariadb://localhost:3308/testing
+      username: root
+      password: rootCeiba
+      hikari:
+         poolName: pool

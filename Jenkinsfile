@@ -24,11 +24,11 @@ pipeline {
         }
       }
 
-    stage('Compile & Unit Tests') {
+    stage('Clean, Compile & Unit Tests') {
         steps{
           echo "------------>Unit Tests<------------"
-            sh 'build --b ./health_dates_backend/build.gradle clean'
-            sh 'build --b ./health_dates_backend/build.gradle compileJava'
+            sh 'build --b ./build.gradle clean'
+            sh 'build --b ./build.gradle compileJava'
             sh 'build --b ./build.gradle test'
         }
       }
