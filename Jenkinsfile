@@ -1,6 +1,8 @@
 pipeline {
 
-  agent 'Slave_Induccion'
+  agent {
+      label 'Slave_Induccion'
+    }
 
   options {
         	buildDiscarder(logRotator(numToKeepStr: '3'))
@@ -34,7 +36,7 @@ pipeline {
           echo "------------>Clean Project<------------"
             sh 'gradle --b ./co.com.ceiba.ADNCeiba.healthCareBackend/java-arquitectura-hexagonal/microservicio/build.gradle clean'
         }
-      } 
+      }
 
     stage('Compile & Unit Tests') {
         steps{
