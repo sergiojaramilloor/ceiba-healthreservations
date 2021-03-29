@@ -12,6 +12,7 @@ create table reserva (
  nombreReservante varchar(100) not null,
  fechaNacimiento date null,
  fechaReserva datetime null,
- valorReserva double(7,0),
+ valorReserva double(7,2),
+ estrato int null,
  primary key (idReserva)
 );

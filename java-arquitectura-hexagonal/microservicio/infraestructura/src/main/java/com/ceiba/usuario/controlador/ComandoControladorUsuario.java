@@ -5,11 +5,10 @@ import com.ceiba.usuario.comando.ComandoUsuario;
 import com.ceiba.usuario.comando.manejador.ManejadorActualizarUsuario;
 import com.ceiba.usuario.comando.manejador.ManejadorCrearUsuario;
 import com.ceiba.usuario.comando.manejador.ManejadorEliminarUsuario;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuarios")

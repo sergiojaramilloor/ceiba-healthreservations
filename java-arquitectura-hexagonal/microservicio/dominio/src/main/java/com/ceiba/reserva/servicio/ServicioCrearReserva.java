@@ -14,7 +14,7 @@ public class ServicioCrearReserva {
         this.repositorioReserva = repositorioReserva;
     }
 
-    public int ejecutar(Reserva reserva){
+    public Long ejecutar(Reserva reserva){
         validarExistencia(reserva);
         return this.repositorioReserva.crearReserva(reserva);
     }

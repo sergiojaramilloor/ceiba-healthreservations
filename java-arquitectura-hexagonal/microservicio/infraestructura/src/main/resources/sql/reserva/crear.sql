@@ -1,0 +1,1 @@
+insert into reserva (idReservante, nombreReservante,fechaNacimiento, fechaReserva, valorReserva, estrato) values (:idReservante, :nombreReservante, :fechaNacimiento, :fechaReserva, :valorReserva, :estrato)

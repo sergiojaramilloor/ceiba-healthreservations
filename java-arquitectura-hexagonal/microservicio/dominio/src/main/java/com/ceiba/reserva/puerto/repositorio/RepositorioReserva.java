@@ -4,13 +4,13 @@ import com.ceiba.reserva.modelo.entidad.Reserva;
 
 public interface RepositorioReserva {
 
-    int crearReserva(Reserva reserva);
+    Long crearReserva(Reserva reserva);
 
-    void eliminarReserva(int idReservante);
+    void eliminarReserva(Long idReservante);
 
     void actualizarReserva(Reserva reserva);
 
-    boolean existeExcluyendoId(int id,String nombre);
+    boolean existeExcluyendoId(Long id,String nombre);
 
     boolean existe(String nombre);
 

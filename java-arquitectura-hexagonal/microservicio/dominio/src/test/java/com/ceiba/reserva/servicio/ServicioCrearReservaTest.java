@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 public class ServicioCrearReservaTest {
 
     @Test
-    public void validaReservaPrevia(){
+    public void validaReservaPrevia() {
         //arrange
         Reserva reserva = new ReservaTestDataBuilder().build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
