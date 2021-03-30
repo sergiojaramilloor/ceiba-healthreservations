@@ -39,12 +39,10 @@ public class ServicioActualizarReservaTest {
     @Test
     public void errorFechaReserva(){
         //arrange
-        Reserva reserva = new ReservaTestDataBuilder().porNombreReservante("D").porFechaReserva(LocalDateTime.of(2021, 03, 31, 10, 00, 00)).build();
-        RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
-        Mockito.when(repoReserva.existe(Mockito.anyString())).thenReturn(true);
-        ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repoReserva);
-        //act
-        BasePrueba.assertThrows(()-> servicioActualizarReserva.ejecutar(reserva), ExcepcionFechaDeActualizacionNoPermitida.class, "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 03, 31, 10, 00, 00));
+        // act - assert
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionFechaDeActualizacionNoPermitida.class, "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
+
     }
 
 }
