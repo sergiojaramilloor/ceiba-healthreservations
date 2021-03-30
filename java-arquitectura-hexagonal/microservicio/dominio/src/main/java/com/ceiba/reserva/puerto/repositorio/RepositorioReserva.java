@@ -6,7 +6,7 @@ public interface RepositorioReserva {
 
     Long crearReserva(Reserva reserva);
 
-    void eliminarReserva(Long idReservante);
+    void eliminarReserva(Long idReserva);
 
     void actualizarReserva(Reserva reserva);
 

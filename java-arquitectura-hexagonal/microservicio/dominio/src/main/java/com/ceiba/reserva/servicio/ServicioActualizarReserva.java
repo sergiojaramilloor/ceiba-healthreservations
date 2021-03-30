@@ -20,13 +20,13 @@ public class ServicioActualizarReserva {
         validarExistencia(reserva);
         if(reserva.getFechaReserva().getDayOfMonth() % 2 != 0){
             throw new ExcepcionFechaDeActualizacionNoPermitida(ERROR_EN_FECHA_DE_ACTUALIZACION);
-        }else {
+        } else {
             this.repositorioReserva.actualizarReserva(reserva);
         }
     }
 
     private void validarExistencia(Reserva reserva) {
-        boolean existe = this.repositorioReserva.existeExcluyendoId(reserva.getIdReservante(), reserva.getNombreReservante());
+        boolean existe = this.repositorioReserva.existeExcluyendoId(reserva.getIdReserva(), reserva.getNombreReservante());
         if(existe){
             throw new ExcepcionDuplicidad(EL_USUARIO_YA_EXISTE_EN_EL_SISTEMA);
         }

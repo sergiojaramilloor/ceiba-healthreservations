@@ -22,20 +22,21 @@ public class ManejadorCrearReserva implements ManejadorComandoRespuesta<ComandoR
     }
 
     public ComandoRespuesta<Long> ejecutar(ComandoReserva comandoReserva) {
-        calcularDescuento(comandoReserva);
+        comandoReserva = calcularDescuento(comandoReserva);
         Reserva reserva = this.fabricaReserva.crear(comandoReserva);
         return new ComandoRespuesta<>(this.servicioCrearReserva.ejecutar(reserva));
     }
 
-    private void calcularDescuento(ComandoReserva comandoReserva) {
+    private ComandoReserva calcularDescuento(ComandoReserva comandoReserva) {
         Double descuento= 0.0;
         int anoNacimiento = comandoReserva.getFechaNacimiento().getYear();
         int anoActual = LocalDate.now().getYear();
         if((anoActual - anoNacimiento) >= 60 ){
             Long estratoUsuario = comandoReserva.getEstrato();
             descuento = aplicarDescuentoAPagoPorEdadYEstrato(estratoUsuario);
+            comandoReserva.setValorReserva((comandoReserva.getValorReserva())*descuento);
         }
-        comandoReserva.setValorReserva((comandoReserva.getValorReserva())*descuento);
+        return comandoReserva;
     }
 
     private Double aplicarDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {

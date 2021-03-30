@@ -54,7 +54,7 @@ public class RepositorioReservaMariaDB implements RepositorioReserva {
     @Override
     public boolean existeExcluyendoId(Long id, String nombre) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("idReserva", id);
+        paramSource.addValue("idReservante", id);
         paramSource.addValue("nombreReservante", nombre);
 
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExisteExcluyendoId, paramSource, Boolean.class);

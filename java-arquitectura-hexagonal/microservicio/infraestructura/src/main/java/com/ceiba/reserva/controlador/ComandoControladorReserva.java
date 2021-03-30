@@ -5,7 +5,6 @@ import com.ceiba.reserva.comando.ComandoReserva;
 import com.ceiba.reserva.comando.manejador.ManejadorActualizarReserva;
 import com.ceiba.reserva.comando.manejador.ManejadorCrearReserva;
 import com.ceiba.reserva.comando.manejador.ManejadorEliminarReserva;
-import com.ceiba.reserva.modelo.entidad.Reserva;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +34,13 @@ public class ComandoControladorReserva {
         return manejadorCrearReserva.ejecutar(comandoReserva);
     }
 
-    @DeleteMapping
+    @DeleteMapping(value="/{idReserva}")
     @ApiOperation("eliminar reserva")
     public void eliminar(@PathVariable Long idReserva){
         manejadorEliminarReserva.ejecutar(idReserva);
     }
 
-    @PutMapping
+    @PutMapping(value="/{idReserva}")
     @ApiOperation("actualizar reserva")
     public void actualizar(@RequestBody ComandoReserva comandoReserva, @PathVariable Long idReserva){
         comandoReserva.setIdReserva(idReserva);
