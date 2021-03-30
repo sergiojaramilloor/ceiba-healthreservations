@@ -16,6 +16,7 @@ public class ServicioCrearReserva {
 
     public Long ejecutar(Reserva reserva){
         validarExistencia(reserva);
+        reserva.validaDescuentoAplicado(reserva);
         return this.repositorioReserva.crearReserva(reserva);
     }
 

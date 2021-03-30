@@ -22,7 +22,7 @@ public class ManejadorCrearReserva implements ManejadorComandoRespuesta<ComandoR
     }
 
     public ComandoRespuesta<Long> ejecutar(ComandoReserva comandoReserva) {
-        comandoReserva = calcularDescuento(comandoReserva);
+        //comandoReserva = calcularDescuento(comandoReserva);
         Reserva reserva = this.fabricaReserva.crear(comandoReserva);
         return new ComandoRespuesta<>(this.servicioCrearReserva.ejecutar(reserva));
     }

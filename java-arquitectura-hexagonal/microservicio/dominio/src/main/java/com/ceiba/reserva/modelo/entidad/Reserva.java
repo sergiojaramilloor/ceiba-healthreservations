@@ -24,9 +24,9 @@ public class Reserva {
     public static final String SE_DEBE_DAR_ESTRATO_DE_LA_PERSONA = "Debes ingresar el estrato de la vivienda donde vives";
     public static final String MENSAJE_ERROR_VIOLACION_LONGITUD_MINIMA_DOCUMENTO = "La longitud del documento ingresado es errónea";
     public static final String DEBE_INGRESAR_VALOR_DE_LA_RESERVA = "Debes proveer el valor de la reserva";    private static final String ERROR_EN_FECHA_DE_ACTUALIZACION = "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas";
-    private static final String NO_SE_ADMITEN_RESERVAS_SABADOS_NI_DOMINGOS = "El sistema no permite realizar reservas el día sábado ni domingo";
-    private static final String NO_SE_PUEDE_RESERVAR_EL_DIA_ACTUAL = "No puedes reservar citas para el día de hoy por decisión administrativa";
-    private static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
+    public static final String NO_SE_ADMITEN_RESERVAS_SABADOS_NI_DOMINGOS = "El sistema no permite realizar reservas el día sábado ni domingo";
+    public static final String NO_SE_PUEDE_RESERVAR_EL_DIA_ACTUAL = "No puedes reservar citas para el día de hoy por decisión administrativa";
+    public static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
 
 
     private Long idReserva;
@@ -44,7 +44,6 @@ public class Reserva {
         validarObligatorio(fechaNacimiento, SE_DEBE_INGRESAR_LA_FECHA_DE_NACIMIENTO);
         validarObligatorio(estrato, SE_DEBE_DAR_ESTRATO_DE_LA_PERSONA);
         validarObligatorio(valorReserva, DEBE_INGRESAR_VALOR_DE_LA_RESERVA);
-        validarDiaNoImparParaActualizarReserva(fechaReserva);
         validarAgendamiento(fechaReserva);
         validarSiSeTrataDeAgendarCitaSabadoODomingo(fechaReserva);
 
@@ -57,7 +56,7 @@ public class Reserva {
         this.estrato = estrato;
     }
 
-    private void validarDiaNoImparParaActualizarReserva(LocalDateTime fechaReserva) {
+    public void validarDiaNoImparParaActualizarReserva(LocalDateTime fechaReserva) {
         if(fechaReserva.getDayOfMonth() % 2 != 0){
             throw new ExcepcionFechaDeActualizacionNoPermitida(ERROR_EN_FECHA_DE_ACTUALIZACION);
         }
@@ -78,5 +77,34 @@ public class Reserva {
         if(diaReserva == DayOfWeek.SUNDAY || diaReserva == DayOfWeek.SATURDAY){
             throw new ExceptionReservaFinDeSemana(NO_SE_ADMITEN_RESERVAS_SABADOS_NI_DOMINGOS);
         }
+    }
+
+    public Reserva validaDescuentoAplicado(Reserva reserva){
+       return reserva = calcularDescuento(reserva);
+    }
+    private Reserva calcularDescuento(Reserva reserva) {
+        Double descuento= 0.0;
+        int anoNacimiento = reserva.getFechaNacimiento().getYear();
+        int anoActual = LocalDate.now().getYear();
+        if((anoActual - anoNacimiento) >= 60 ){
+            Long estratoUsuario = reserva.getEstrato();
+            descuento = aplicarDescuentoAPagoPorEdadYEstrato(estratoUsuario);
+            valorReserva=(reserva.getValorReserva())*descuento;
+        }
+        return reserva;
+    }
+
+    private Double aplicarDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {
+        Double valorPorPagar = 0.0;
+        if(estratoUsuario==1){
+            valorPorPagar = 0.85;
+        } else if (estratoUsuario==2){
+            valorPorPagar = 0.88;
+        } else if (estratoUsuario==3){
+            valorPorPagar = 0.92;
+        } else {
+            valorPorPagar = 0.97;
+        }
+        return valorPorPagar;
     }
 }
