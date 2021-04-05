@@ -9,8 +9,9 @@ import lombok.Getter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
 
@@ -27,7 +28,7 @@ public class Reserva {
     public static final String NO_SE_ADMITEN_RESERVAS_SABADOS_NI_DOMINGOS = "El sistema no permite realizar reservas el día sábado ni domingo";
     public static final String NO_SE_PUEDE_RESERVAR_EL_DIA_ACTUAL = "No puedes reservar citas para el día de hoy por decisión administrativa";
     public static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
-
+    public static final int EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA = 60;
 
     private Long idReserva;
     private Long idReservante;
@@ -63,9 +64,10 @@ public class Reserva {
     }
 
     private void validarAgendamiento(LocalDateTime fechaReserva) {
-        DayOfWeek diaReserva = fechaReserva.getDayOfWeek();
-        Date today = Calendar.getInstance().getTime();
-        if(diaReserva.equals(LocalDateTime.now().getDayOfWeek())){
+        int diaReserva = fechaReserva.getDayOfMonth();
+        Month mesReserva = fechaReserva.getMonth();
+        if(diaReserva == LocalDateTime.now().getDayOfMonth() &&
+                mesReserva.equals(LocalDateTime.now().getMonth())){
             throw new ExcepcionDiaInvalidoParaSeleccionarCita(NO_SE_PUEDE_RESERVAR_EL_DIA_ACTUAL);
         } else if(fechaReserva.isBefore(LocalDateTime.now())){
             throw new ExceptionValidarReservaConFechasPasadas(FECHA_DE_RESERVA_INVALIDA);
@@ -80,16 +82,16 @@ public class Reserva {
     }
 
     public Reserva validaDescuentoAplicado(Reserva reserva){
-       return reserva = calcularDescuento(reserva);
+       return calcularDescuento(reserva);
     }
     private Reserva calcularDescuento(Reserva reserva) {
         Double descuento= 0.0;
         int anoNacimiento = reserva.getFechaNacimiento().getYear();
         int anoActual = LocalDate.now().getYear();
-        if((anoActual - anoNacimiento) >= 60 ){
+        if((anoActual - anoNacimiento) >= EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA ){
             Long estratoUsuario = reserva.getEstrato();
             descuento = aplicarDescuentoAPagoPorEdadYEstrato(estratoUsuario);
-            valorReserva=(reserva.getValorReserva())*descuento;
+            valorReserva = (reserva.getValorReserva())*descuento;
         }
         return reserva;
     }
@@ -106,5 +108,32 @@ public class Reserva {
             valorPorPagar = 0.97;
         }
         return valorPorPagar;
+    }
+
+    public Reserva validaIncrementoPorReservaDíaFestivo(Reserva reserva){
+        List<LocalDateTime> retornaDiasFestivos = listaDiasFestivo();
+        if(retornaDiasFestivos.contains(reserva.getFechaReserva())){
+            valorReserva = reserva.getValorReserva()*2;
+        }
+        return this;
+    }
+
+    private List<LocalDateTime> listaDiasFestivo(){
+        List<LocalDateTime> diasFestivos = new ArrayList<>();
+        diasFestivos.add(LocalDateTime.of(2021, 05, 01, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 05, 17, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 06, 07, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 06, 14, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 07, 05, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 07, 20, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 8, 07, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 8, 16, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 10, 18, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 11, 01, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 11, 15, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 12, 8, 00, 00, 00));
+        diasFestivos.add(LocalDateTime.of(2021, 12, 25, 00, 00, 00));
+
+        return diasFestivos;
     }
 }

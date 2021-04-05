@@ -19,7 +19,7 @@ public class ServicioCrearReservaTest {
     @Test
     public void validaReservaPrevia() {
         //arrange
-        Reserva reserva = new ReservaTestDataBuilder().build();
+        Reserva reserva = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now().plusDays(1)).build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repoReserva.existe(Mockito.anyString())).thenReturn(true);
         ServicioCrearReserva crearReservaService = new ServicioCrearReserva(repoReserva);
@@ -30,24 +30,13 @@ public class ServicioCrearReservaTest {
 
     @Test
     public void reservaCreada(){
-        Reserva reserva = new ReservaTestDataBuilder().build();
+        Reserva reserva = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now().plusDays(1)).build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repositorioReserva.existe("Sergio Jaramillo Orozco")).thenReturn(true);
         ServicioCrearReserva servicioCrearReserva = new ServicioCrearReserva(repositorioReserva);
         Long registroHecho = servicioCrearReserva.ejecutar(reserva);
 
         Assert.assertNotEquals(java.util.Optional.ofNullable(registroHecho), 1L);
-    }
-
-    @Test
-    public void errorReservaCitaDiaActual(){
-        //arrange
-        Reserva reserva = new ReservaTestDataBuilder().porNombreReservante("Daniela Quintero").porFechaReserva(LocalDateTime.now()).build();
-        RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
-        Mockito.when(repoReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
-        ServicioCrearReserva servicioCrearReserva = new ServicioCrearReserva(repoReserva);
-        //act
-        BasePrueba.assertThrows(()-> servicioCrearReserva.ejecutar(reserva), ExcepcionDiaInvalidoParaSeleccionarCita.class, "No puedes reservar citas para el día de hoy por decisión administrativa");
     }
 
     @Test
@@ -62,7 +51,7 @@ public class ServicioCrearReservaTest {
     @Test
     public void errorReservaNoPermitidaFinDeSemana(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04,04,10,00,00));
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04,10,10,00,00));
         //act
         BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExceptionReservaFinDeSemana.class, "El sistema no permite realizar reservas el día sábado ni domingo");
     }
@@ -74,5 +63,19 @@ public class ServicioCrearReservaTest {
         // act - assert
         BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionDiaInvalidoParaSeleccionarCita.class, "No puedes reservar citas para el día de hoy por decisión administrativa");
 
+    }
+
+    @Test
+    public void validaTarifaDoble(){
+        //arrange
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 10, 18, 00, 00, 00)).conIdReservante(400L).porNombreReservante("Carolina Saldarriaga").build();
+        RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
+        //act
+        Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
+        Reserva entidadReserva = reservaTestDataBuilder.validaIncrementoPorReservaDíaFestivo(reservaTestDataBuilder);
+        double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
+        double valorEsperadoParaLaReserva = 180000;
+        //assert
+        Assert.assertEquals(valorEsperadoParaLaReserva, valorReservaMandadoPorRequest, 0.0);
     }
 }

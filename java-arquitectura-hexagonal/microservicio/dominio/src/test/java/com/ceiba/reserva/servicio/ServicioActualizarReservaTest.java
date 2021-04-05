@@ -16,7 +16,7 @@ public class ServicioActualizarReservaTest {
     @Test
     public void actualizarPorIdReservante() {
         //arrange
-        Reserva reservaPorActualizar = new ReservaTestDataBuilder().conIdReservante(1000L).build();
+        Reserva reservaPorActualizar = new ReservaTestDataBuilder().conIdReservante(1000L).porFechaReserva(LocalDateTime.now().plusDays(1)).build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repoReserva.existeExcluyendoId(Mockito.anyLong(), Mockito.anyString())).thenReturn(true);
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repoReserva);
@@ -28,7 +28,7 @@ public class ServicioActualizarReservaTest {
     @Test
     public void actualizarPorIdReserva() {
         //arrange
-        Reserva reservaPorActualizar = new ReservaTestDataBuilder().porIdReserva(1L).build();
+        Reserva reservaPorActualizar = new ReservaTestDataBuilder().porIdReserva(1L).porFechaReserva(LocalDateTime.now().plusDays(1)).build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repoReserva.existeExcluyendoId(Mockito.anyLong(), Mockito.anyString())).thenReturn(true);
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repoReserva);
@@ -39,9 +39,12 @@ public class ServicioActualizarReservaTest {
     @Test
     public void errorFechaReserva(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 03, 31, 10, 00, 00));
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04, 07, 10, 00, 00)).porNombreReservante("Daniel Jiménez").conIdReservante(200L).build();
+        RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
+        Mockito.when(repositorioReserva.existeExcluyendoId(reservaTestDataBuilder.getIdReservante(), reservaTestDataBuilder.getNombreReservante())).thenReturn(true);
+        ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
         // act - assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionFechaDeActualizacionNoPermitida.class, "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
+        BasePrueba.assertThrows(()-> servicioActualizarReserva.ejecutar(reservaTestDataBuilder), ExcepcionFechaDeActualizacionNoPermitida.class, "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
 
     }
 

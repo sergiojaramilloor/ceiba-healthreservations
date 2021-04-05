@@ -20,7 +20,7 @@ public class ReservaTestDataBuilder {
         nombreReservante = "Sergio Jaramillo";
         fechaNacimiento = LocalDate.of(1995, 01, 11);
         fechaReserva = LocalDateTime.of(2021, 04, 2, 10,20,00);
-        valorReserva = 90.000;
+        valorReserva = 90000.00;
         estrato = 3L;
     }
 
