@@ -18,4 +18,8 @@ public class ManejadorListarReservas {
     public List<DtoReserva> listar(){
         return this.daoReserva.listarReservas();
     }
+
+    public DtoReserva encontrarPorId(Long idReserva){
+        return this.daoReserva.obtenerReserva(idReserva);
+    }
 }

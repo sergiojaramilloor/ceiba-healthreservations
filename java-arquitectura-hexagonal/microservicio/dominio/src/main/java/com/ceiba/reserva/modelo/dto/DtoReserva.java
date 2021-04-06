@@ -12,7 +12,7 @@ public class DtoReserva {
 
     private Long idReserva;
     private Long idReservante;
-    private String nombreReserva;
+    private String nombreReservante;
     private LocalDate fechaNacimiento;
     private LocalDateTime fechaReserva;
     private double valorReserva;

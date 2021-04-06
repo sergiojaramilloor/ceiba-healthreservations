@@ -8,4 +8,6 @@ public interface DaoReserva {
 
     List<DtoReserva> listarReservas();
 
+    DtoReserva obtenerReserva(Long idReserva);
+
 }
