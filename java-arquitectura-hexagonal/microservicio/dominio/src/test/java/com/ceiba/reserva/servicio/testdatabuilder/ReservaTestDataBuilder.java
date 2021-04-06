@@ -24,6 +24,11 @@ public class ReservaTestDataBuilder {
         estrato = 3L;
     }
 
+    public ReservaTestDataBuilder porEstrato(Long estrato){
+        this.estrato = estrato;
+        return this;
+    }
+
     public ReservaTestDataBuilder conIdReservante(Long idReservante){
         this.idReservante = idReservante;
         return this;
@@ -34,13 +39,18 @@ public class ReservaTestDataBuilder {
         return this;
     }
 
-    public ReservaTestDataBuilder porIdReserva(Long idReserva){
-        this.idReserva = idReserva;
+    public ReservaTestDataBuilder porValorReserva(double valorReserva){
+        this.valorReserva = valorReserva;
         return this;
     }
 
     public ReservaTestDataBuilder porFechaReserva(LocalDateTime fechaReserva){
         this.fechaReserva = fechaReserva;
+        return this;
+    }
+
+    public ReservaTestDataBuilder porFechaNacimiento(LocalDate fechaNacimiento){
+        this.fechaNacimiento = fechaNacimiento;
         return this;
     }
 

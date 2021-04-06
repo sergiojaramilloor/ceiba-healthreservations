@@ -1,10 +1,7 @@
 package com.ceiba.reserva.servicio;
 
 import com.ceiba.BasePrueba;
-import com.ceiba.dominio.excepcion.ExcepcionDiaInvalidoParaSeleccionarCita;
-import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
-import com.ceiba.dominio.excepcion.ExceptionReservaFinDeSemana;
-import com.ceiba.dominio.excepcion.ExceptionValidarReservaConFechasPasadas;
+import com.ceiba.dominio.excepcion.*;
 import com.ceiba.reserva.modelo.entidad.Reserva;
 import com.ceiba.reserva.puerto.repositorio.RepositorioReserva;
 import com.ceiba.reserva.servicio.testdatabuilder.ReservaTestDataBuilder;
@@ -12,9 +9,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ServicioCrearReservaTest {
+
+    private static final double PORCENTAJE_A_PAGAR_ESTRATO_TRES_MAYOR_DE_SESENTA_ANOS = 0.92;
 
     @Test
     public void validaReservaPrevia() {
@@ -78,4 +78,49 @@ public class ServicioCrearReservaTest {
         //assert
         Assert.assertEquals(valorEsperadoParaLaReserva, valorReservaMandadoPorRequest, 0.0);
     }
+
+    @Test
+    public void validaDescuentoSegunEstrato(){
+        //arrange
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(
+                LocalDateTime.of(2021, 10, 19, 00, 00, 00)).
+                conIdReservante(401L).
+                porNombreReservante("Ana Saldarriaga").
+                porEstrato(3L).
+                porFechaNacimiento(LocalDate.of(1920,10,10)).
+                build();
+        RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
+        //act
+        Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
+        Reserva entidadReserva = reservaTestDataBuilder.validaDescuentoAplicado(reservaTestDataBuilder);
+        double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
+        double valorEsperadoParaLaReserva = (90000.00 * PORCENTAJE_A_PAGAR_ESTRATO_TRES_MAYOR_DE_SESENTA_ANOS);
+        //assert
+        Assert.assertEquals(valorEsperadoParaLaReserva, valorReservaMandadoPorRequest, 0.0);
+    }
+
+    @Test
+    public void validaPagarPositivoACero(){
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaReserva(LocalDateTime.now().plusDays(1)).
+                porNombreReservante("Victor Ruíz").
+                porValorReserva(0).
+                conIdReservante(1234L);
+        //assert
+        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(), ExcepcionValorInvalido.class, "El valor de la cita debe ser positivo");
+    }
+
+    @Test
+    public void validaEstrato(){
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaReserva(LocalDateTime.now().plusDays(1)).
+                porNombreReservante("Maria Builes").
+                porEstrato(0L).
+                conIdReservante(23456L);
+        //assert
+        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(), ExcepcionValorInvalido.class, "El estrato de la persona debe ser positivo");
+    }
+
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
+import static com.ceiba.dominio.ValidadorArgumento.validarPositivo;
 
 @Getter
 public class Reserva {
@@ -24,11 +25,22 @@ public class Reserva {
     public static final String SE_DEBE_INGRESAR_LA_FECHA_DE_NACIMIENTO = "Debes de ingresar la fecha de nacimiento";
     public static final String SE_DEBE_DAR_ESTRATO_DE_LA_PERSONA = "Debes ingresar el estrato de la vivienda donde vives";
     public static final String MENSAJE_ERROR_VIOLACION_LONGITUD_MINIMA_DOCUMENTO = "La longitud del documento ingresado es errónea";
-    public static final String DEBE_INGRESAR_VALOR_DE_LA_RESERVA = "Debes proveer el valor de la reserva";    private static final String ERROR_EN_FECHA_DE_ACTUALIZACION = "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas";
+    public static final String DEBE_INGRESAR_VALOR_DE_LA_RESERVA = "Debes proveer el valor de la reserva";
+    private static final String ERROR_EN_FECHA_DE_ACTUALIZACION = "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas";
     public static final String NO_SE_ADMITEN_RESERVAS_SABADOS_NI_DOMINGOS = "El sistema no permite realizar reservas el día sábado ni domingo";
     public static final String NO_SE_PUEDE_RESERVAR_EL_DIA_ACTUAL = "No puedes reservar citas para el día de hoy por decisión administrativa";
+    public static final String VALIDAR_VALOR_RESERVA_SEA_POSITIVO = "El valor de la cita debe ser positivo";
     public static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
+    public static final String ESTRATO_DE_LA_PERSONA_DEBE_SER_POSITIVO = "El estrato de la persona debe ser positivo";
     public static final int EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA = 60;
+    public static final int ESTRATO_UNO = 1;
+    public static final int ESTRATO_DOS = 2;
+    public static final int ESTRATO_TRES = 3;
+    public static final double PORCENTAJE_PARA_ESTRATO_UNO = 0.85;
+    public static final double PORCENTAJE_PARA_ESTRATO_DOS = 0.88;
+    public static final double PORCENTAJE_PARA_ESTRATO_TRES = 0.92;
+    public static final double PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE = 0.97;
+    public static final int TARIFA_DIAS_FESTIVOS = 2;
 
     private Long idReserva;
     private Long idReservante;
@@ -45,6 +57,8 @@ public class Reserva {
         validarObligatorio(fechaNacimiento, SE_DEBE_INGRESAR_LA_FECHA_DE_NACIMIENTO);
         validarObligatorio(estrato, SE_DEBE_DAR_ESTRATO_DE_LA_PERSONA);
         validarObligatorio(valorReserva, DEBE_INGRESAR_VALOR_DE_LA_RESERVA);
+        validarPositivo(valorReserva, VALIDAR_VALOR_RESERVA_SEA_POSITIVO);
+        validarPositivo(Double.valueOf(estrato), ESTRATO_DE_LA_PERSONA_DEBE_SER_POSITIVO);
         validarAgendamiento(fechaReserva);
         validarSiSeTrataDeAgendarCitaSabadoODomingo(fechaReserva);
 
@@ -98,41 +112,41 @@ public class Reserva {
 
     private Double aplicarDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {
         Double valorPorPagar = 0.0;
-        if(estratoUsuario==1){
-            valorPorPagar = 0.85;
-        } else if (estratoUsuario==2){
-            valorPorPagar = 0.88;
-        } else if (estratoUsuario==3){
-            valorPorPagar = 0.92;
+        if(estratoUsuario == ESTRATO_UNO){
+            valorPorPagar = PORCENTAJE_PARA_ESTRATO_UNO;
+        } else if (estratoUsuario == ESTRATO_DOS){
+            valorPorPagar = PORCENTAJE_PARA_ESTRATO_DOS;
+        } else if (estratoUsuario == ESTRATO_TRES){
+            valorPorPagar = PORCENTAJE_PARA_ESTRATO_TRES;
         } else {
-            valorPorPagar = 0.97;
+            valorPorPagar = PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE;
         }
         return valorPorPagar;
     }
 
     public Reserva validaIncrementoPorReservaDíaFestivo(Reserva reserva){
-        List<LocalDateTime> retornaDiasFestivos = listaDiasFestivo();
-        if(retornaDiasFestivos.contains(reserva.getFechaReserva())){
-            valorReserva = reserva.getValorReserva()*2;
+        List<LocalDate> retornaDiasFestivos = listaDiasFestivo();
+        if(retornaDiasFestivos.contains(reserva.getFechaReserva().toLocalDate())){
+            valorReserva = reserva.getValorReserva() * TARIFA_DIAS_FESTIVOS;
         }
         return this;
     }
 
-    private List<LocalDateTime> listaDiasFestivo(){
-        List<LocalDateTime> diasFestivos = new ArrayList<>();
-        diasFestivos.add(LocalDateTime.of(2021, 05, 01, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 05, 17, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 06, 07, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 06, 14, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 07, 05, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 07, 20, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 8, 07, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 8, 16, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 10, 18, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 11, 01, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 11, 15, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 12, 8, 00, 00, 00));
-        diasFestivos.add(LocalDateTime.of(2021, 12, 25, 00, 00, 00));
+    private List<LocalDate> listaDiasFestivo(){
+        List<LocalDate> diasFestivos = new ArrayList<>();
+        diasFestivos.add(LocalDate.of(2021, 05, 01));
+        diasFestivos.add(LocalDate.of(2021, 05, 17));
+        diasFestivos.add(LocalDate.of(2021, 06, 07));
+        diasFestivos.add(LocalDate.of(2021, 06, 14));
+        diasFestivos.add(LocalDate.of(2021, 07, 05));
+        diasFestivos.add(LocalDate.of(2021, 07, 20));
+        diasFestivos.add(LocalDate.of(2021, 8, 07));
+        diasFestivos.add(LocalDate.of(2021, 8, 16));
+        diasFestivos.add(LocalDate.of(2021, 10, 18));
+        diasFestivos.add(LocalDate.of(2021, 11, 01));
+        diasFestivos.add(LocalDate.of(2021, 11, 15));
+        diasFestivos.add(LocalDate.of(2021, 12, 8));
+        diasFestivos.add(LocalDate.of(2021, 12, 25));
 
         return diasFestivos;
     }
