@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Agendar reserva</h2>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <form [formGroup]="reservaForm" (ngSumbit)="guardar(reserva)">
+                    <label for="">
+                        Id Reservante
+                    </label>
+                    <input validar [(ngModel)]="reserva.idReservante" name="idReservante" type="text" class="form-control" 
+                    formControlName="idReservante">
+                    <br>
+                    <label for="">
+                        Nombre Reservante
+                    </label>
+                    <input validar [(ngModel)]="reserva.nombreReservante" name="nombreReservante" type="text" class="form-control" 
+                    formControlName="nombreReservante">
+                    <br>
+                    <label for="">
+                        Fecha nacimiento
+                    </label>
+                    <input validar [(ngModel)]="reserva.fechaNacimiento" name="fechaNacimiento" type="date" class="form-control" 
+                    formControlName="fechaNacimiento">
+                    <br>
+                    <label for="">
+                        Fecha reserva
+                    </label>
+                    <input validar [(ngModel)]="reserva.fechaReserva" name="fechaReserva" type="datetime-local" class="form-control" 
+                    formControlName="fechaReserva" placeholder="yyyy-mm-dd hh:mm:ss">
+                    <br>
+                    <label for="">
+                        Valor Reserva
+                    </label>
+                    <input validar [(ngModel)]="reserva.valorReserva" name="valorReserva" type="text" class="form-control" 
+                    formControlName="valorReserva">
+                    <br>
+                    <label for="">
+                        Estrato
+                    </label>
+                    <input validar [(ngModel)]="reserva.estrato" name="estrato" type="text" class="form-control" 
+                    formControlName="estrato">
+                    <br>
+                    <button (click)="guardar(reserva)" class="btn btn-success" type="submit">Guardar</button>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>

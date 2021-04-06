@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="body-card">
+        <div class="card">
+            <div class="container">
+                    <div class="form-group">
+                        <form [formGroup]="reservaForm" (ngSumbit)="guardar(reserva)">
+                            <label for="">
+                                Id Reserva
+                            </label>
+                            <input value="{{reserva.idReserva}}" type="text" class="form-control" 
+                            [(ngModel)]="reserva.idReserva" disabled>
+                            <label for="">
+                                Id Reservante
+                            </label>
+                            <input value="{{reserva.idReservante}}" type="text" class="form-control" 
+                            [(ngModel)]="reserva.idReservante" disabled>
+                            <br>
+                            <label for="">
+                                Nombre Reservante
+                            </label>
+                            <input value="{{reserva.nombreReservante}}" type="text" class="form-control" 
+                            [(ngModel)]="reserva.nombreReservante">
+                            <br>
+                            <label for="">
+                                Fecha Nacimiento
+                            </label>
+                            <input value="{{reserva.fechaNacimiento}}" type="date" class="form-control" 
+                            [(ngModel)]="reserva.fechaNacimiento">
+                            <br>
+                            <label for="">
+                                Fecha Reserva
+                            </label>
+                            <input value="{{reserva.fechaReserva}}"  type="datetime" class="form-control"
+                            [(ngModel)]="reserva.fechaReserva">
+                            <br>
+                            <label for="">
+                                Valor Reserva
+                            </label>
+                            <input value="{{reserva.valorReserva}}" type="text" class="form-control"
+                            [(ngModel)]="reserva.valorReserva">
+                            <br>
+                            <label for="">
+                                Estrato
+                            </label>
+                            <input value="{{reserva.estrato}}" type="text" class="form-control"
+                            [(ngModel)]="reserva.estrato">
+                            <br>
+                            <button (click)="guardar(reserva)" class="btn btn-success" type="submit">Guardar</button>
+                        </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

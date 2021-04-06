@@ -16,11 +16,11 @@ const routes: Routes = [
         component: CrearProductoComponent
       },
       {
-        path: 'listar',
+        path: 'listar-producto',
         component: ListarProductoComponent
       },
       {
-        path: 'borrar',
+        path: 'borrar-producto',
         component: BorrarProductoComponent
       }
     ]

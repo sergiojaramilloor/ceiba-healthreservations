@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>Reservas</h3>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <caption>Tabla que lista las reservas</caption>
+                    <thead class="thead-dark">
+                        <th scope="col">Id Reserva</th>
+                        <th scope="col">Id Reservante</th>
+                        <th scope="col">Nombre Reservante</th>
+                        <th scope="col">Fecha de Nacimiento</th>
+                        <th scope="col">Fecha de Reserva</th>
+                        <th scope="col">Valor pagado</th>
+                        <th scope="col">Estrato</th>
+                        <th scope="col">Acciones</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reserva of listaDeReservas | async" class="text-center">
+                            <td>{{reserva.idReserva}}</td>
+                            <td>{{reserva.idReservante}}</td>
+                            <td>{{reserva.nombreReservante}}</td>
+                            <td>{{reserva.fechaNacimiento}}</td>
+                            <td>{{reserva.fechaReserva}}</td>
+                            <td>{{reserva.valorReserva}}</td>
+                            <td>{{reserva.estrato}}</td>
+                            <td>
+                                <button (click)="editar(reserva)" class="btn btn-warning">Editar</button>
+                                <button (click)="eliminar(reserva)" class="btn btn-danger"style="margin-left: 10px">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
