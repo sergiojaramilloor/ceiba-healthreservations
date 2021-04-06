@@ -25,4 +25,9 @@ export class ReservaService {
   public consultarUno(idReserva: number){
     return this.http.doGet<Reserva>(`${environment.endpoint}/reservas/${idReserva}`);
   }
+
+  public actualizar(reserva: Reserva){
+    return this.http.doPut<Reserva>(`${environment.endpoint}/reserva/${reserva.idReserva}`, reserva);
+
+  }
 }

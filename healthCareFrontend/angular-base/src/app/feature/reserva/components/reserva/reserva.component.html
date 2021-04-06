@@ -1,13 +1,13 @@
-<nav >
-  <div class="container-fluid">
-    <a id="linkReserva" routerLink="./" routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }">Reservas Home</a>
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Opciones Reservas
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" routerLink="./crear" routerLinkActive="active">Crear reserva</a>
     <br>
-    <a id="linkCrearReserva" routerLink="./crear" routerLinkActive="active">Crear reserva</a>
+    <a class="dropdown-item" routerLink="./listar" routerLinkActive="active">Listar reserva</a>
     <br>
-    <a id="linkListarReserva" routerLink="./listar" routerLinkActive="active">Listar reserva</a>
-    <br>
-    <a id="linkListarReserva" routerLink="./editar" routerLinkActive="active">Editar reserva</a>
+    <a class="dropdown-item" routerLink="./editar" routerLinkActive="active">Editar reserva</a>
   </div>
-</nav>
+</div>
 <router-outlet></router-outlet>

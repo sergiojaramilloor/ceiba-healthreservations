@@ -21,7 +21,10 @@ export class EditarReservaComponent implements OnInit {
   }
 
   guardar(reserva: Reserva){
-    alert(reserva.estrato);
+    this.reservaService.actualizar(reserva).subscribe(data=>{
+      this.reserva =data;
+      this.router.navigate(['listar']);
+    });
   }
 
   editar(){
@@ -33,13 +36,13 @@ export class EditarReservaComponent implements OnInit {
 
   private validacionesFormularioReserva(){
     this.reservaForm = new FormGroup({
-      idReserva : new FormControl([Validators.required]),
-      idReservante : new FormControl([Validators.required]),
-      nombreReserva : new FormControl([Validators.required]),
-      fechaNacimiento : new FormControl([Validators.required]),
-      fechaReserva : new FormControl([Validators.required]),
-      valorReserva : new FormControl([Validators.required]),
-      estrato : new FormControl([Validators.required])
+      idReserva : new FormControl(' ', [Validators.required]),
+      idReservante : new FormControl(' ', [Validators.required]),
+      nombreReserva : new FormControl(' ', [Validators.required]),
+      fechaNacimiento : new FormControl(' ', [Validators.required]),
+      fechaReserva : new FormControl(' ', [Validators.required]),
+      valorReserva : new FormControl(' ', [Validators.required]),
+      estrato : new FormControl(' ', [Validators.required])
     });
   }
 

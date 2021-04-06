@@ -22,7 +22,7 @@ export class ListarReservaComponent implements OnInit {
   eliminar(reserva: Reserva){
     this.reservaService.eliminar(reserva).subscribe(data => {
       console.log(data);
-      this.router.navigate(["listar"]);
+      this.router.navigate([""]);
     });
   }
 
