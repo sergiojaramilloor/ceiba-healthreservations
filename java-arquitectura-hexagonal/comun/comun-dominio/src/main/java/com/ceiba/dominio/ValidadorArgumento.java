@@ -1,16 +1,15 @@
 package com.ceiba.dominio;
 
+import com.ceiba.dominio.excepcion.ExcepcionLongitudValor;
+import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
+import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.ceiba.dominio.excepcion.ExcepcionLongitudDocumento;
-import com.ceiba.dominio.excepcion.ExcepcionLongitudValor;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
 
 public class ValidadorArgumento {
 	

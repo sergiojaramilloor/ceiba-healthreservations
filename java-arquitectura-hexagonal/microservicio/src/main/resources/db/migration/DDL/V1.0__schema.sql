@@ -1,18 +1,18 @@
-create table usuario (
- id int(11) not null auto_increment,
- nombre varchar(100) not null,
- clave varchar(45) not null,
- fecha_creacion datetime null,
- primary key (id)
+CREATE TABLE usuario (
+ id INT(11) NOT NULL AUTO_INCREMENT,
+ nombre VARCHAR(100) NOT NULL,
+ clave VARCHAR(45) NOT NULL,
+ fecha_creacion DATETIME NULL,
+ PRIMARY KEY (id)
 );
 
-create table reserva (
- idReserva int(11) not null auto_increment,
- idReservante int(11) not null ,
- nombreReservante varchar(100) not null,
- fechaNacimiento date null,
- fechaReserva datetime null,
- valorReserva double(7,2),
- estrato int null,
- primary key (idReserva)
+CREATE TABLE reserva (
+ idReserva INT(11) NOT NULL AUTO_INCREMENT,
+ idReservante INT(11) NOT NULL,
+ nombreReservante VARCHAR(100) NOT NULL,
+ fechaNacimiento DATE NULL,
+ fechaReserva DATETIME NULL,
+ valorReserva DOUBLE,
+ estrato INT NULL,
+ PRIMARY KEY (idReserva)
 );

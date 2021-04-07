@@ -19,18 +19,28 @@ public class ServicioCrearReservaTest {
     @Test
     public void validaReservaPrevia() {
         //arrange
-        Reserva reserva = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now().plusDays(1)).build();
+        Reserva reserva = new ReservaTestDataBuilder().
+                                porFechaReserva(
+                                        LocalDateTime.now().
+                                                plusDays(1)).
+                                                build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repoReserva.existe(Mockito.anyString())).thenReturn(true);
         ServicioCrearReserva crearReservaService = new ServicioCrearReserva(repoReserva);
         //act
-        BasePrueba.assertThrows(() -> crearReservaService.ejecutar(reserva), ExcepcionDuplicidad.class, "El usuario ya está en el sistema");
+        BasePrueba.assertThrows(() -> crearReservaService.ejecutar(reserva),
+                ExcepcionDuplicidad.class,
+                "El usuario ya está en el sistema");
 
     }
 
     @Test
     public void reservaCreada(){
-        Reserva reserva = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now().plusDays(1)).build();
+        Reserva reserva = new ReservaTestDataBuilder().
+                                porFechaReserva(
+                                        LocalDateTime.now().
+                                                plusDays(1)).
+                                        build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repositorioReserva.existe("Sergio Jaramillo Orozco")).thenReturn(true);
         ServicioCrearReserva servicioCrearReserva = new ServicioCrearReserva(repositorioReserva);
@@ -42,33 +52,67 @@ public class ServicioCrearReservaTest {
     @Test
     public void errorReservaCitasPasadas(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 03, 24, 10, 00, 00));
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                                porFechaReserva(
+                                                                        LocalDateTime.of(
+                                                                                LocalDateTime.now().getYear(),
+                                                                                LocalDateTime.now().getMonth().minus(1),
+                                                                                LocalDateTime.now().getDayOfMonth(),
+                                                                                LocalDateTime.now().getHour(),
+                                                                                LocalDateTime.now().getMinute(),
+                                                                                LocalDateTime.now().getSecond()));
         // act - assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExceptionValidarReservaConFechasPasadas.class, "Su fecha de reserva tiene una fecha errada, verifiquela por favor");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                ExceptionValidarReservaConFechasPasadas.class,
+                "Su fecha de reserva tiene una fecha errada, verifiquela por favor");
 
     }
 
     @Test
     public void errorReservaNoPermitidaFinDeSemana(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04,10,10,00,00));
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                                porFechaReserva(
+                                                                        LocalDateTime.of(
+                                                                                LocalDateTime.now().getYear(),
+                                                                                LocalDateTime.now().getMonth(),
+                                                                                10,//Pendiente por validar como mando un día sábado o domingo
+                                                                                LocalDateTime.now().getHour(),
+                                                                                LocalDateTime.now().getMinute(),
+                                                                                LocalDateTime.now().getSecond()));
         //act
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExceptionReservaFinDeSemana.class, "El sistema no permite realizar reservas el día sábado ni domingo");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                ExceptionReservaFinDeSemana.class,
+                "El sistema no permite realizar reservas el día sábado ni domingo");
     }
 
     @Test
     public void validarReservaNoPermitidaADiaActual() {
         // arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now());
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                                porFechaReserva(LocalDateTime.now());
         // act - assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionDiaInvalidoParaSeleccionarCita.class, "No puedes reservar citas para el día de hoy por decisión administrativa");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                ExcepcionDiaInvalidoParaSeleccionarCita.class,
+                "No puedes reservar citas para el día de hoy por decisión administrativa");
 
     }
 
     @Test
     public void validaTarifaDoble(){
         //arrange
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 10, 18, 00, 00, 00)).conIdReservante(400L).porNombreReservante("Carolina Saldarriaga").build();
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                porFechaReserva(
+                                                        LocalDateTime.of(//Pendiente por validar el mandar un día festivo
+                                                                2021,
+                                                                10,
+                                                                18,
+                                                                LocalDateTime.now().getHour(),
+                                                                LocalDateTime.now().getMinute(),
+                                                                LocalDateTime.now().getSecond())).
+                                                conIdReservante(400L).
+                                                porNombreReservante("Carolina Saldarriaga").
+                                                build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         //act
         Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
@@ -76,14 +120,23 @@ public class ServicioCrearReservaTest {
         double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
         double valorEsperadoParaLaReserva = 180000;
         //assert
-        Assert.assertEquals(valorEsperadoParaLaReserva, valorReservaMandadoPorRequest, 0.0);
+        Assert.assertEquals(valorEsperadoParaLaReserva,
+                valorReservaMandadoPorRequest,
+                0.0);
     }
 
     @Test
-    public void validaDescuentoSegunEstrato(){
+    public void validaDescuentoSegunEstratoEdadSuperiorASesentaAnos(){
         //arrange
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(
-                LocalDateTime.of(2021, 10, 19, 00, 00, 00)).
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaReserva(
+                    LocalDateTime.of(
+                            LocalDateTime.now().getYear(),
+                            LocalDateTime.now().getMonth(),
+                            27,//Validar cuando este día sea sábado o domingo en el mes corriente
+                            LocalDateTime.now().getHour(),
+                            LocalDateTime.now().getMinute(),
+                            LocalDateTime.now().getSecond())).
                 conIdReservante(401L).
                 porNombreReservante("Ana Saldarriaga").
                 porEstrato(3L).
@@ -96,7 +149,9 @@ public class ServicioCrearReservaTest {
         double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
         double valorEsperadoParaLaReserva = (90000.00 * PORCENTAJE_A_PAGAR_ESTRATO_TRES_MAYOR_DE_SESENTA_ANOS);
         //assert
-        Assert.assertEquals(valorEsperadoParaLaReserva, valorReservaMandadoPorRequest, 0.0);
+        Assert.assertEquals(valorEsperadoParaLaReserva,
+                valorReservaMandadoPorRequest,
+                0.0);
     }
 
     @Test
@@ -108,7 +163,9 @@ public class ServicioCrearReservaTest {
                 porValorReserva(0).
                 conIdReservante(1234L);
         //assert
-        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(), ExcepcionValorInvalido.class, "El valor de la cita debe ser positivo");
+        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(),
+                ExcepcionValorInvalido.class,
+                "El valor de la cita debe ser positivo");
     }
 
     @Test
@@ -120,7 +177,9 @@ public class ServicioCrearReservaTest {
                 porEstrato(0L).
                 conIdReservante(23456L);
         //assert
-        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(), ExcepcionValorInvalido.class, "El estrato de la persona debe ser positivo");
+        BasePrueba.assertThrows(()->reservaTestDataBuilder.build(),
+                ExcepcionValorInvalido.class,
+                "El estrato de la persona debe ser positivo");
     }
 
 }

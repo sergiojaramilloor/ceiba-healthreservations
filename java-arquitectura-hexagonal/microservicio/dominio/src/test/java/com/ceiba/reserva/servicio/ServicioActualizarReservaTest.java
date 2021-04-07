@@ -18,18 +18,40 @@ public class ServicioActualizarReservaTest {
     @Test
     public void errorFechaReserva(){
         //arrange
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04, 27, 10, 00, 00)).porNombreReservante("Daniel Jiménez").conIdReservante(200L).build();
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                porFechaReserva(LocalDateTime.of(
+                                                        LocalDateTime.now().getYear(),
+                                                        LocalDateTime.now().getMonth(),
+                                                        27,
+                                                        LocalDateTime.now().getHour(),
+                                                        LocalDateTime.now().getMinute(),
+                                                        LocalDateTime.now().getSecond())).
+                                                porNombreReservante("Daniel Jiménez").
+                                                conIdReservante(200L).
+                                                build();
+
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
-        Mockito.when(repositorioReserva.existeExcluyendoId(reservaTestDataBuilder.getIdReservante(), reservaTestDataBuilder.getNombreReservante())).thenReturn(true);
+        Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(), Mockito.anyString())).thenReturn(true);
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
         // act - assert
-        BasePrueba.assertThrows(()-> servicioActualizarReserva.ejecutar(reservaTestDataBuilder), ExcepcionFechaDeActualizacionNoPermitida.class, "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
+        BasePrueba.assertThrows(()-> servicioActualizarReserva.ejecutar(reservaTestDataBuilder),
+                ExcepcionFechaDeActualizacionNoPermitida.class,
+                "Error en la fecha ingresada, los días impares no se permiten ajustes en las citas");
 
     }
 
     @Test
     public void errorValorMinimoPorReserva(){
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04, 26, 10, 00, 00)).porValorReserva(10000).build();
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                porFechaReserva(LocalDateTime.of(
+                                                        LocalDateTime.now().getYear(),
+                                                        LocalDateTime.now().getMonth(),
+                                                        26,
+                                                        LocalDateTime.now().getHour(),
+                                                        LocalDateTime.now().getMinute(),
+                                                        LocalDateTime.now().getSecond())).
+                                                porValorReserva(10000).
+                                                build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repositorioReserva.existeExcluyendoId(reservaTestDataBuilder.getIdReservante(), reservaTestDataBuilder.getNombreReservante())).thenReturn(true);
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
@@ -39,25 +61,46 @@ public class ServicioActualizarReservaTest {
     @Test
     public void errorFechaPasadaPorReserva(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04, 5, 10, 00, 00));
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                            porFechaReserva(LocalDateTime.of(
+                                                                    LocalDateTime.now().getYear(),
+                                                                    LocalDateTime.now().getMonth(),
+                                                                    5,
+                                                                    LocalDateTime.now().getHour(),
+                                                                    LocalDateTime.now().getMinute(),
+                                                                    LocalDateTime.now().getSecond()));
         // act - assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExceptionValidarReservaConFechasPasadas.class, "Su fecha de reserva tiene una fecha errada, verifiquela por favor");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                ExceptionValidarReservaConFechasPasadas.class,
+                "Su fecha de reserva tiene una fecha errada, verifiquela por favor");
 
     }
 
     @Test
     public void errorFechaDeHoyPorReserva(){
         //arrange
-        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.now());
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                                porFechaReserva(LocalDateTime.now());
         // act - assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionDiaInvalidoParaSeleccionarCita.class, "No puedes reservar citas para el día de hoy por decisión administrativa");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                ExcepcionDiaInvalidoParaSeleccionarCita.class,
+                "No puedes reservar citas para el día de hoy por decisión administrativa");
 
     }
 
     @Test
     public void errorUsuarioNoExiste(){
         //arrange
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().porFechaReserva(LocalDateTime.of(2021, 04, 8, 10, 00, 00)).porNombreReservante("Daniel Jiménez").build();
+        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
+                                                porFechaReserva(LocalDateTime.of(
+                                                        LocalDateTime.now().getYear(),
+                                                        LocalDateTime.now().getMonth(),
+                                                        8,
+                                                        LocalDateTime.now().getHour(),
+                                                        LocalDateTime.now().getMinute(),
+                                                        LocalDateTime.now().getSecond())).
+                                                porNombreReservante("Daniel Jiménez").
+                                                build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repositorioReserva.existeExcluyendoId(reservaTestDataBuilder.getIdReservante(), "Usuario desconocido")).thenReturn(true);
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
