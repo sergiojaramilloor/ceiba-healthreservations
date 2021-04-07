@@ -17,7 +17,7 @@ public class ComandoReservaTestDataBuilder {
 
     public ComandoReservaTestDataBuilder(){
         idReserva = 3L;
-        idReservante = 3L;
+        idReservante = 100L;
         nombreReservante = "Sergio Jaramillo";
         fechaNacimiento = LocalDate.of(1995, 01, 11);
         fechaReserva = LocalDateTime.now().plusDays(1);

@@ -60,4 +60,15 @@ public class ComandoControladorReservaTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void obtenerReserva() throws Exception{
+        //arrange
+        Long idReserva = 1L;
+        //act
+        mockMvc.perform(get("/reservas/{idReserva}", idReserva)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
 }
