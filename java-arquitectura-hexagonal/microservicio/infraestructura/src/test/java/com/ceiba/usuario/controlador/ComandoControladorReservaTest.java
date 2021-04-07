@@ -14,8 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,13 +42,8 @@ public class ComandoControladorReservaTest {
     public void actualizarReserva() throws Exception{
         //arrange
         Long id = 3L;
-        ComandoReserva reserva = new ComandoReservaTestDataBuilder().
-                                        porNombreReservante("Sergio Jaramillo").
-                                        porIdReservante(100L).
-                                        porFechaReserva(LocalDateTime.of(LocalDateTime.now().getYear(), LocalDateTime.now().getMonth().plus(1), 20, 10, 00, 00)).
-                                        builder();
+        ComandoReserva reserva = new ComandoReservaTestDataBuilder().builder();
         // act - assert
-        System.out.println(reserva.getValorReserva());
         mockMvc.perform(put("/reserva/{id}", id)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(reserva)))

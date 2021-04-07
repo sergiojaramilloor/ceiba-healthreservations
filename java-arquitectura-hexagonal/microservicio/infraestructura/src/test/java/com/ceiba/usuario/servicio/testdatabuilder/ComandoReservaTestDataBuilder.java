@@ -18,17 +18,23 @@ public class ComandoReservaTestDataBuilder {
     public ComandoReservaTestDataBuilder(){
         idReserva = 3L;
         idReservante = 3L;
-        nombreReservante = "Sergio A. Jaramillo";
+        nombreReservante = "Sergio Jaramillo";
         fechaNacimiento = LocalDate.of(1995, 01, 11);
         fechaReserva = LocalDateTime.now().plusDays(1);
         valorReserva = 100000;
         estrato = 4L;
     }
 
+    public ComandoReservaTestDataBuilder porIdReserva(Long idReserva){
+        this.idReserva = idReserva;
+        return this;
+    }
+
     public ComandoReservaTestDataBuilder porIdReservante(Long idReservante){
         this.idReservante = idReservante;
         return this;
     }
+
     public ComandoReservaTestDataBuilder porNombreReservante(String nombreReservante){
         this.nombreReservante = nombreReservante;
         return this;
