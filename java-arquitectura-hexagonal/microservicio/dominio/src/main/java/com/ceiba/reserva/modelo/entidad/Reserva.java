@@ -1,9 +1,6 @@
 package com.ceiba.reserva.modelo.entidad;
 
-import com.ceiba.dominio.excepcion.ExcepcionDiaInvalidoParaSeleccionarCita;
-import com.ceiba.dominio.excepcion.ExcepcionFechaDeActualizacionNoPermitida;
-import com.ceiba.dominio.excepcion.ExceptionReservaFinDeSemana;
-import com.ceiba.dominio.excepcion.ExceptionValidarReservaConFechasPasadas;
+import com.ceiba.dominio.excepcion.*;
 import lombok.Getter;
 
 import java.time.DayOfWeek;
@@ -13,8 +10,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
-import static com.ceiba.dominio.ValidadorArgumento.validarPositivo;
+import static com.ceiba.dominio.ValidadorArgumento.*;
 
 @Getter
 public class Reserva {
@@ -32,6 +28,8 @@ public class Reserva {
     public static final String VALIDAR_VALOR_RESERVA_SEA_POSITIVO = "El valor de la cita debe ser positivo";
     public static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
     public static final String ESTRATO_DE_LA_PERSONA_DEBE_SER_POSITIVO = "El estrato de la persona debe ser positivo";
+    public static final int EDAD_MINIMA = 5;
+    public static final String ERROR_EN_EDAD_MINIMA = "La edad mínima para acceder a las citas es de 5 años";
     public static final int EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA = 60;
     public static final int ESTRATO_UNO = 1;
     public static final int ESTRATO_DOS = 2;
@@ -59,6 +57,7 @@ public class Reserva {
         validarObligatorio(valorReserva, DEBE_INGRESAR_VALOR_DE_LA_RESERVA);
         validarPositivo(valorReserva, VALIDAR_VALOR_RESERVA_SEA_POSITIVO);
         validarPositivo(Double.valueOf(estrato), ESTRATO_DE_LA_PERSONA_DEBE_SER_POSITIVO);
+        validarEdadMinima(fechaNacimiento);
         validarAgendamiento(fechaReserva);
         validarSiSeTrataDeAgendarCitaSabadoODomingo(fechaReserva);
 
@@ -95,7 +94,7 @@ public class Reserva {
         }
     }
 
-    public Reserva validaDescuentoAplicado(Reserva reserva){
+    public Reserva calculaDescuentoPorAplicar(Reserva reserva){
        return calcularDescuento(reserva);
     }
     private Reserva calcularDescuento(Reserva reserva) {
@@ -104,13 +103,13 @@ public class Reserva {
         int anoActual = LocalDate.now().getYear();
         if((anoActual - anoNacimiento) >= EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA ){
             Long estratoUsuario = reserva.getEstrato();
-            descuento = aplicarDescuentoAPagoPorEdadYEstrato(estratoUsuario);
-            valorReserva = (reserva.getValorReserva())*descuento;
+            descuento = calculaDescuentoAPagoPorEdadYEstrato(estratoUsuario);
+            valorReserva = (reserva.getValorReserva()) * descuento;
         }
         return reserva;
     }
 
-    private Double aplicarDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {
+    private Double calculaDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {
         Double valorPorPagar = 0.0;
         if(estratoUsuario == ESTRATO_UNO){
             valorPorPagar = PORCENTAJE_PARA_ESTRATO_UNO;
@@ -149,5 +148,11 @@ public class Reserva {
         diasFestivos.add(LocalDate.of(2021, 12, 25));
 
         return diasFestivos;
+    }
+
+    public void validarEdadMinima(LocalDate fechaNacimiento){
+        if((LocalDate.now().getYear() - fechaNacimiento.getYear()) <= EDAD_MINIMA){
+            throw new ExcepcionEdadMinimaIncumplida(ERROR_EN_EDAD_MINIMA);
+        }
     }
 }

@@ -1,16 +1,14 @@
 package com.ceiba.reserva.servicio;
 
 import com.ceiba.BasePrueba;
-import com.ceiba.dominio.excepcion.ExcepcionDiaInvalidoParaSeleccionarCita;
-import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
-import com.ceiba.dominio.excepcion.ExcepcionFechaDeActualizacionNoPermitida;
-import com.ceiba.dominio.excepcion.ExceptionValidarReservaConFechasPasadas;
+import com.ceiba.dominio.excepcion.*;
 import com.ceiba.reserva.modelo.entidad.Reserva;
 import com.ceiba.reserva.puerto.repositorio.RepositorioReserva;
 import com.ceiba.reserva.servicio.testdatabuilder.ReservaTestDataBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ServicioActualizarReservaTest {
@@ -95,7 +93,7 @@ public class ServicioActualizarReservaTest {
                                                 porFechaReserva(LocalDateTime.of(
                                                         LocalDateTime.now().getYear(),
                                                         LocalDateTime.now().getMonth(),
-                                                        8,
+                                                        28,
                                                         LocalDateTime.now().getHour(),
                                                         LocalDateTime.now().getMinute(),
                                                         LocalDateTime.now().getSecond())).
@@ -106,6 +104,22 @@ public class ServicioActualizarReservaTest {
         ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
         // act - assert
         BasePrueba.assertThrows(()-> servicioActualizarReserva.ejecutar(reservaTestDataBuilder), ExcepcionDuplicidad.class, "El usuario a actualizar no está en el sistema");
+
+    }
+
+    @Test
+    public void validaEdadMinimaActualizandoDatos(){
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaNacimiento(LocalDate.of(LocalDate.now().getYear(),1,1)).
+                porFechaReserva(LocalDateTime.of(LocalDateTime.now().getYear(),
+                        LocalDateTime.now().getDayOfMonth(),
+                        26,
+                        LocalDateTime.now().getHour(),
+                        LocalDateTime.now().getMinute(),
+                        LocalDateTime.now().getSecond()));
+        //assert
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionEdadMinimaIncumplida.class, "La edad mínima para acceder a las citas es de 5 años");
 
     }
 

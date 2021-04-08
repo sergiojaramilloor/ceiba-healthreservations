@@ -145,7 +145,7 @@ public class ServicioCrearReservaTest {
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         //act
         Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
-        Reserva entidadReserva = reservaTestDataBuilder.validaDescuentoAplicado(reservaTestDataBuilder);
+        Reserva entidadReserva = reservaTestDataBuilder.calculaDescuentoPorAplicar(reservaTestDataBuilder);
         double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
         double valorEsperadoParaLaReserva = (90000.00 * PORCENTAJE_A_PAGAR_ESTRATO_TRES_MAYOR_DE_SESENTA_ANOS);
         //assert
@@ -178,8 +178,24 @@ public class ServicioCrearReservaTest {
                 conIdReservante(23456L);
         //assert
         BasePrueba.assertThrows(()->reservaTestDataBuilder.build(),
-                ExcepcionValorInvalido.class,
+                    ExcepcionValorInvalido.class,
                 "El estrato de la persona debe ser positivo");
+    }
+
+    @Test
+    public void validaEdadMinima(){
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaNacimiento(LocalDate.of(LocalDate.now().getYear(),1,1)).
+                porFechaReserva(LocalDateTime.of(LocalDateTime.now().getYear(),
+                        LocalDateTime.now().getDayOfMonth(),
+                        26,
+                        LocalDateTime.now().getHour(),
+                        LocalDateTime.now().getMinute(),
+                        LocalDateTime.now().getSecond()));
+        //assert
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionEdadMinimaIncumplida.class, "La edad mínima para acceder a las citas es de 5 años");
+
     }
 
 }
