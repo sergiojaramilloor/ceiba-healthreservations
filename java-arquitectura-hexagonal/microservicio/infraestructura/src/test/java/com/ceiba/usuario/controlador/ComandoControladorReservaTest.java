@@ -30,7 +30,9 @@ public class ComandoControladorReservaTest {
 
     @Test
     public void crearReserva() throws Exception{
-        ComandoReserva reserva = new ComandoReservaTestDataBuilder().builder();
+        ComandoReserva reserva = new ComandoReservaTestDataBuilder().
+                                        porNombreReservante("Antonia Giraldo").
+                                        builder();
         // act - assert
         mockMvc.perform(post("/reserva")
                 .contentType(MediaType.APPLICATION_JSON)
