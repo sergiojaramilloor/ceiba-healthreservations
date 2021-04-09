@@ -13,13 +13,13 @@
                                 Id Reservante
                             </label>
                             <input value="{{reserva.idReservante}}" name="idReservante" type="text" class="form-control" formControlName="idReservante"
-                            [(ngModel)]="reserva.idReservante">
+                            [(ngModel)]="reserva.idReservante" disabled>
                             <br>
                             <label for="">
                                 Nombre Reservante
                             </label>
                             <input value="{{reserva.nombreReservante}}" type="text" class="form-control" formControlName="nombreReserva"
-                            [(ngModel)]="reserva.nombreReservante">
+                            [(ngModel)]="reserva.nombreReservante" disabled>
                             <br>
                             <label for="">
                                 Fecha Nacimiento
@@ -37,7 +37,7 @@
                                 Valor Reserva
                             </label>
                             <input value="{{reserva.valorReserva}}" type="text" class="form-control" formControlName="valorReserva"
-                            [(ngModel)]="reserva.valorReserva">
+                            [(ngModel)]="reserva.valorReserva" disabled>
                             <br>
                             <label for="">
                                 Estrato

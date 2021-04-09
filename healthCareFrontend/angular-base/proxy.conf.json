@@ -1,6 +1,6 @@
 {
-  "/prospectos-vida": {
-    "target": "http://localhost:8082",
+  "/reserva/*": {
+    "target": "http://localhost:8082/reserva",
     "secure": false,
     "logLevel": "debug"
   }

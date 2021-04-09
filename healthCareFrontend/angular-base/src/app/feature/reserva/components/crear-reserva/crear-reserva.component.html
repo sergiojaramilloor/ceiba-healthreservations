@@ -9,7 +9,7 @@
                     <label for="">
                         Id Reservante
                     </label>
-                    <input validar [(ngModel)]="reserva.idReservante" name="idReservante" type="text" class="form-control" 
+                    <input validar [(ngModel)]="reserva.idReservante" name="idReservante" type="number" class="form-control" 
                     formControlName="idReservante">
                     <br>
                     <label for="">
@@ -33,13 +33,13 @@
                     <label for="">
                         Valor Reserva
                     </label>
-                    <input validar [(ngModel)]="reserva.valorReserva" name="valorReserva" type="text" class="form-control" 
+                    <input validar [(ngModel)]="reserva.valorReserva" name="valorReserva" type="number" class="form-control" 
                     formControlName="valorReserva">
                     <br>
                     <label for="">
                         Estrato
                     </label>
-                    <input validar [(ngModel)]="reserva.estrato" name="estrato" type="text" class="form-control" 
+                    <input validar [(ngModel)]="reserva.estrato" name="estrato" type="number" class="form-control" 
                     formControlName="estrato">
                     <br>
                     <button (click)="guardar(reserva)" class="btn btn-success" type="submit">Guardar</button>

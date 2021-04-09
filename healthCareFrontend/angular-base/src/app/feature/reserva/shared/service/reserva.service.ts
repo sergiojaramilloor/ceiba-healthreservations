@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@core-service/http.service';
-import { environment } from 'src/environments/environment';
 import { Reserva } from '../model/reserva';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -9,25 +9,35 @@ export class ReservaService {
 
   constructor(protected http: HttpService) {}
 
-  public consultar() {
-    return this.http.doGet<Reserva[]>(`${environment.endpoint}/reservas`);
+  public consultar(): Observable<any> {
+    return this.http.doGet<Reserva[]>(`/reservas`);
   }
 
-  public guardar(reserva: Reserva) {
-    return this.http.doPost<Reserva, boolean>(`${environment.endpoint}/reserva`, reserva,
-                                                this.http.optsName('crear/actualizar reservas'));
+  public guardar(reserva: Reserva): Observable<any> {
+    this.validarFechaNacimiento(reserva);
+    return this.http.doPost<Reserva, boolean>(`/reserva`, reserva)
   }
 
-  public eliminar(reserva: Reserva) {
-    return this.http.doDelete<boolean>(`${environment.endpoint}/reserva/${reserva.idReserva}`);
+  public eliminar(reserva: Reserva): Observable<any> {
+    return this.http.doDelete<boolean>(`/reserva/${reserva.idReserva}`);
   }
 
-  public consultarUno(idReserva: number){
-    return this.http.doGet<Reserva>(`${environment.endpoint}/reservas/${idReserva}`);
+  public consultarUno(idReserva: number): Observable<any> {
+    return this.http.doGet<Reserva>(`/reservas/${idReserva}`);
   }
 
-  public actualizar(reserva: Reserva){
-    return this.http.doPut<Reserva>(`${environment.endpoint}/reserva/${reserva.idReserva}`, reserva);
+  public actualizar(reserva: Reserva): Observable<any> {
+    this.validarFechaNacimiento(reserva);
+    return this.http.doPut<Reserva>(`/reserva/${reserva.idReserva}`, reserva);
 
+  }
+
+  validarFechaNacimiento(reserva: Reserva){
+    let fechaNacimiento = reserva.fechaNacimiento;
+    let newDate = new Date(fechaNacimiento);
+    let actualDate = new Date;
+    if(newDate > actualDate){
+      alert("La fecha de nacimiento que estás mandando es inválida");
+    }
   }
 }
