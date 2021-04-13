@@ -1,1 +1,7 @@
-{}
+{
+  "dependencies": {
+    "@angular/animations": "^11.2.9",
+    "angular-notifier": "^9.0.1",
+    "ngx-toastr": "^13.2.1"
+  }
+}

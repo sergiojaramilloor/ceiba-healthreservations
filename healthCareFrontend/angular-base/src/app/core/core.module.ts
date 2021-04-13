@@ -1,3 +1,4 @@
+import { ServicioDeNotificaciones } from './services/ServicioDeNotificaciones.service';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SecurityGuard } from './guard/security.guard';
@@ -22,7 +23,8 @@ import { RouterModule } from '@angular/router';
     SecurityGuard,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: ManejadorError }
+    { provide: ErrorHandler, useClass: ManejadorError },
+    ServicioDeNotificaciones
   ]
 })
 export class CoreModule { }

@@ -1,3 +1,4 @@
+import { ServicioDeNotificaciones } from './../../../../core/services/ServicioDeNotificaciones.service';
 import { ReservaService } from './../../shared/service/reserva.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -13,7 +14,7 @@ export class EditarReservaComponent implements OnInit {
   reserva: Reserva = new Reserva();
   reservaForm : FormGroup;
 
-  constructor(protected router: Router, protected reservaService: ReservaService) { }
+  constructor(protected router: Router, protected reservaService: ReservaService, private servicioNotificaciones: ServicioDeNotificaciones) { }
 
   ngOnInit(): void {
     this.editar();
@@ -22,9 +23,14 @@ export class EditarReservaComponent implements OnInit {
 
   guardar(reserva: Reserva){
     this.reservaService.actualizar(reserva).subscribe(data=>{
-      this.reserva =data;
+      this.reserva = data;
+      this.servicioNotificaciones.mostrarExito('Éxito');
       this.router.navigate(['listar']);
-    });
+    }, 
+    error => { 
+          this.servicioNotificaciones.mostrarError(error.error.mensaje);
+      }
+    );
   }
 
   editar(){

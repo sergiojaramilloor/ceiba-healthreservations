@@ -187,7 +187,8 @@ public class ServicioCrearReservaTest {
         //arrange
         ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
                 porFechaNacimiento(LocalDate.of(LocalDate.now().getYear(),1,1)).
-                porFechaReserva(LocalDateTime.of(LocalDateTime.now().getYear(),
+                porFechaReserva(LocalDateTime.of(
+                        LocalDateTime.now().getYear(),
                         LocalDateTime.now().getDayOfMonth(),
                         26,
                         LocalDateTime.now().getHour(),

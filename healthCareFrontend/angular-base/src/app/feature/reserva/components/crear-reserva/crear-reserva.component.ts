@@ -1,3 +1,4 @@
+import { ServicioDeNotificaciones } from './../../../../core/services/ServicioDeNotificaciones.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from './../../shared/service/reserva.service';
@@ -22,7 +23,7 @@ export class CrearReservaComponent implements OnInit {
   reservaForm: FormGroup;
   reserva:Reserva = new Reserva();
 
-  constructor(protected reservaService: ReservaService, private routes: Router) { }
+  constructor(protected reservaService: ReservaService, private routes: Router, private servicioDeAlertas: ServicioDeNotificaciones) { }
 
   ngOnInit(): void {
     this.validacionesFormularioReserva();
@@ -32,10 +33,14 @@ export class CrearReservaComponent implements OnInit {
       reserva.fechaReserva = reserva.fechaReserva.replace("T", " ");
       reserva.fechaReserva = reserva.fechaReserva.concat(":00");
       this.reservaService.guardar(reserva).subscribe(data => {
-        alert("Guardado " + reserva.nombreReservante);
+        this.servicioDeAlertas.mostrarExito('Éxito');
         console.log(data);
         this.routes.navigate(['listar']);
-      });
+      },
+      error => {
+        this.servicioDeAlertas.mostrarError(error.error.mensaje);
+      }
+      );
   }
 
   private validacionesFormularioReserva(){

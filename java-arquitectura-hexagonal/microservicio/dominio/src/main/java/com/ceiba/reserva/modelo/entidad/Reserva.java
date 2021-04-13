@@ -150,7 +150,7 @@ public class Reserva {
         return diasFestivos;
     }
 
-    public void validarEdadMinima(LocalDate fechaNacimiento){
+    private void validarEdadMinima(LocalDate fechaNacimiento){
         if((LocalDate.now().getYear() - fechaNacimiento.getYear()) <= EDAD_MINIMA){
             throw new ExcepcionEdadMinimaIncumplida(ERROR_EN_EDAD_MINIMA);
         }
