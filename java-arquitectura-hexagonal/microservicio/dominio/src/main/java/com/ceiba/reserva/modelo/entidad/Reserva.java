@@ -39,6 +39,8 @@ public class Reserva {
     public static final double PORCENTAJE_PARA_ESTRATO_TRES = 0.92;
     public static final double PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE = 0.97;
     public static final int TARIFA_DIAS_FESTIVOS = 2;
+    public static final int VALOR_MINIMO_RESERVA = 18000;
+    public static final int VALOR_MAXIMO_RESERVA = 110000;
 
     private Long idReserva;
     private Long idReservante;
@@ -60,6 +62,8 @@ public class Reserva {
         validarEdadMinima(fechaNacimiento);
         validarAgendamiento(fechaReserva);
         validarSiSeTrataDeAgendarCitaSabadoODomingo(fechaReserva);
+        validaValorMinimoAPagarPorReserva(valorReserva);
+        valorMaximoAPagarPorReserva(valorReserva);
 
         this.idReserva = idReserva;
         this.idReservante = idReservante;
@@ -98,32 +102,29 @@ public class Reserva {
        return calcularDescuento(reserva);
     }
     private Reserva calcularDescuento(Reserva reserva) {
-        Double descuento= 0.0;
         int anoNacimiento = reserva.getFechaNacimiento().getYear();
         int anoActual = LocalDate.now().getYear();
         if((anoActual - anoNacimiento) >= EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA ){
             Long estratoUsuario = reserva.getEstrato();
-            descuento = calculaDescuentoAPagoPorEdadYEstrato(estratoUsuario);
-            valorReserva = (reserva.getValorReserva()) * descuento;
+            valorReserva = (reserva.getValorReserva()) * calculaDescuentoAPagoPorEdadYEstrato(estratoUsuario);
         }
+        validaElIncrementoPorReservaDíaFestivo(reserva);
         return reserva;
     }
 
     private Double calculaDescuentoAPagoPorEdadYEstrato(Long estratoUsuario) {
-        Double valorPorPagar = 0.0;
+        Double valorPorPagar = PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE;
         if(estratoUsuario == ESTRATO_UNO){
             valorPorPagar = PORCENTAJE_PARA_ESTRATO_UNO;
         } else if (estratoUsuario == ESTRATO_DOS){
             valorPorPagar = PORCENTAJE_PARA_ESTRATO_DOS;
         } else if (estratoUsuario == ESTRATO_TRES){
             valorPorPagar = PORCENTAJE_PARA_ESTRATO_TRES;
-        } else {
-            valorPorPagar = PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE;
         }
         return valorPorPagar;
     }
 
-    public Reserva validaIncrementoPorReservaDíaFestivo(Reserva reserva){
+    private Reserva validaElIncrementoPorReservaDíaFestivo(Reserva reserva){
         List<LocalDate> retornaDiasFestivos = listaDiasFestivo();
         if(retornaDiasFestivos.contains(reserva.getFechaReserva().toLocalDate())){
             valorReserva = reserva.getValorReserva() * TARIFA_DIAS_FESTIVOS;
@@ -153,6 +154,18 @@ public class Reserva {
     private void validarEdadMinima(LocalDate fechaNacimiento){
         if((LocalDate.now().getYear() - fechaNacimiento.getYear()) <= EDAD_MINIMA){
             throw new ExcepcionEdadMinimaIncumplida(ERROR_EN_EDAD_MINIMA);
+        }
+    }
+
+    private void validaValorMinimoAPagarPorReserva(double valorReserva){
+        if(valorReserva < VALOR_MINIMO_RESERVA){
+            throw new ExcepcionTarifaMinima("Señor usuario, el monto a pagar por la reserva, mínimo es de 18.000");
+        }
+    }
+
+    private void valorMaximoAPagarPorReserva(double valorReserva){
+        if(valorReserva > VALOR_MAXIMO_RESERVA){
+            throw new ExcepcionTarifaMaxima("Señor usuario, el monto a pagar por la reserva, máximo es de 110.000");
         }
     }
 }

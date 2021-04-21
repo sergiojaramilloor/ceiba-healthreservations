@@ -39,24 +39,6 @@ public class ServicioActualizarReservaTest {
     }
 
     @Test
-    public void errorValorMinimoPorReserva(){
-        Reserva reservaTestDataBuilder = new ReservaTestDataBuilder().
-                                                porFechaReserva(LocalDateTime.of(
-                                                        LocalDateTime.now().getYear(),
-                                                        LocalDateTime.now().getMonth(),
-                                                        26,
-                                                        LocalDateTime.now().getHour(),
-                                                        LocalDateTime.now().getMinute(),
-                                                        LocalDateTime.now().getSecond())).
-                                                porValorReserva(10000).
-                                                build();
-        RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
-        Mockito.when(repositorioReserva.existeExcluyendoId(reservaTestDataBuilder.getIdReservante(), reservaTestDataBuilder.getNombreReservante())).thenReturn(true);
-        ServicioActualizarReserva servicioActualizarReserva = new ServicioActualizarReserva(repositorioReserva);
-        //act-assert
-    }
-
-    @Test
     public void errorFechaPasadaPorReserva(){
         //arrange
         ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
@@ -113,7 +95,7 @@ public class ServicioActualizarReservaTest {
         ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
                 porFechaNacimiento(LocalDate.of(LocalDate.now().getYear(),1,1)).
                 porFechaReserva(LocalDateTime.of(LocalDateTime.now().getYear(),
-                        LocalDateTime.now().getDayOfMonth(),
+                        LocalDateTime.now().getMonth(),
                         26,
                         LocalDateTime.now().getHour(),
                         LocalDateTime.now().getMinute(),

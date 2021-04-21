@@ -34,6 +34,8 @@ public class ManejadorError extends ResponseEntityExceptionHandler {
         CODIGOS_ESTADO.put(ExcepcionDiaInvalidoParaSeleccionarCita.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExceptionValidarReservaConFechasPasadas.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
         CODIGOS_ESTADO.put(ExcepcionEdadMinimaIncumplida.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
+        CODIGOS_ESTADO.put(ExcepcionTarifaMinima.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
+        CODIGOS_ESTADO.put(ExcepcionTarifaMaxima.class.getSimpleName(), HttpStatus.BAD_REQUEST.value());
 
         //en caso de tener otra excepcion matricularla aca
     }

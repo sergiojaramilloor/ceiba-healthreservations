@@ -76,7 +76,7 @@ public class ServicioCrearReservaTest {
                                                                         LocalDateTime.of(
                                                                                 LocalDateTime.now().getYear(),
                                                                                 LocalDateTime.now().getMonth(),
-                                                                                10,//Pendiente por validar como mando un día sábado o domingo
+                                                                                24,//Pendiente por validar como mando un día sábado o domingo
                                                                                 LocalDateTime.now().getHour(),
                                                                                 LocalDateTime.now().getMinute(),
                                                                                 LocalDateTime.now().getSecond()));
@@ -116,7 +116,7 @@ public class ServicioCrearReservaTest {
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         //act
         Mockito.when(repositorioReserva.existeExcluyendoId(Mockito.anyLong(),Mockito.anyString())).thenReturn(true);
-        Reserva entidadReserva = reservaTestDataBuilder.validaIncrementoPorReservaDíaFestivo(reservaTestDataBuilder);
+        Reserva entidadReserva = reservaTestDataBuilder.calculaDescuentoPorAplicar(reservaTestDataBuilder);
         double valorReservaMandadoPorRequest = entidadReserva.getValorReserva();
         double valorEsperadoParaLaReserva = 180000;
         //assert
@@ -189,14 +189,54 @@ public class ServicioCrearReservaTest {
                 porFechaNacimiento(LocalDate.of(LocalDate.now().getYear(),1,1)).
                 porFechaReserva(LocalDateTime.of(
                         LocalDateTime.now().getYear(),
-                        LocalDateTime.now().getDayOfMonth(),
+                        LocalDateTime.now().getMonth(),
                         26,
                         LocalDateTime.now().getHour(),
                         LocalDateTime.now().getMinute(),
                         LocalDateTime.now().getSecond()));
         //assert
-        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(), ExcepcionEdadMinimaIncumplida.class, "La edad mínima para acceder a las citas es de 5 años");
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                                        ExcepcionEdadMinimaIncumplida.class,
+                                    "La edad mínima para acceder a las citas es de 5 años");
 
+    }
+
+    @Test
+    public void validaValorMinimoEnValorPagadoPorReserva() {
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaReserva(LocalDateTime.of(
+                        LocalDateTime.now().getYear(),
+                        LocalDateTime.now().getMonth(),
+                        LocalDateTime.now().getDayOfMonth() + 1,
+                        LocalDateTime.now().getHour(),
+                        LocalDateTime.now().getMinute(),
+                        LocalDateTime.now().getSecond()
+                )).
+                porValorReserva(17000);
+        //assert
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                                        ExcepcionTarifaMinima.class,
+                                    "Señor usuario, el monto a pagar por la reserva, mínimo es de 18.000");
+    }
+
+    @Test
+    public void validaTopeMaximoEnValorPorReserva(){
+        //arrange
+        ReservaTestDataBuilder reservaTestDataBuilder = new ReservaTestDataBuilder().
+                porFechaReserva(LocalDateTime.of(
+                        LocalDateTime.now().getYear(),
+                        LocalDateTime.now().getMonth(),
+                        LocalDateTime.now().getDayOfMonth() + 1,
+                        LocalDateTime.now().getHour(),
+                        LocalDateTime.now().getMinute(),
+                        LocalDateTime.now().getSecond()
+                )).
+                porValorReserva(120000);
+        //assert
+        BasePrueba.assertThrows(()-> reservaTestDataBuilder.build(),
+                                        ExcepcionTarifaMaxima.class,
+                                    "Señor usuario, el monto a pagar por la reserva, máximo es de 110.000");
     }
 
 }
