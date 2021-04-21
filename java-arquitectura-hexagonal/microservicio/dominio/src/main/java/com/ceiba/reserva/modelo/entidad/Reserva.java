@@ -28,16 +28,16 @@ public class Reserva {
     public static final String VALIDAR_VALOR_RESERVA_SEA_POSITIVO = "El valor de la cita debe ser positivo";
     public static final String FECHA_DE_RESERVA_INVALIDA = "Su fecha de reserva tiene una fecha errada, verifiquela por favor";
     public static final String ESTRATO_DE_LA_PERSONA_DEBE_SER_POSITIVO = "El estrato de la persona debe ser positivo";
-    public static final int EDAD_MINIMA = 5;
     public static final String ERROR_EN_EDAD_MINIMA = "La edad mínima para acceder a las citas es de 5 años";
-    public static final int EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA = 60;
-    public static final int ESTRATO_UNO = 1;
-    public static final int ESTRATO_DOS = 2;
-    public static final int ESTRATO_TRES = 3;
     public static final double PORCENTAJE_PARA_ESTRATO_UNO = 0.85;
     public static final double PORCENTAJE_PARA_ESTRATO_DOS = 0.88;
     public static final double PORCENTAJE_PARA_ESTRATO_TRES = 0.92;
     public static final double PORCENTAJE_PARA_ESTRATOS_DEL_CUATRO_EN_ADELANTE = 0.97;
+    public static final int EDAD_MINIMA_PARA_DESCUENTO_PARA_CITA = 60;
+    public static final int ESTRATO_UNO = 1;
+    public static final int ESTRATO_DOS = 2;
+    public static final int ESTRATO_TRES = 3;
+    public static final int EDAD_MINIMA = 5;
     public static final int TARIFA_DIAS_FESTIVOS = 2;
     public static final int VALOR_MINIMO_RESERVA = 18000;
     public static final int VALOR_MAXIMO_RESERVA = 110000;
@@ -108,7 +108,7 @@ public class Reserva {
             Long estratoUsuario = reserva.getEstrato();
             valorReserva = (reserva.getValorReserva()) * calculaDescuentoAPagoPorEdadYEstrato(estratoUsuario);
         }
-        validaElIncrementoPorReservaDíaFestivo(reserva);
+        validaElIncrementoPorReservaDiaFestivo(reserva);
         return reserva;
     }
 
@@ -124,7 +124,7 @@ public class Reserva {
         return valorPorPagar;
     }
 
-    private Reserva validaElIncrementoPorReservaDíaFestivo(Reserva reserva){
+    private Reserva validaElIncrementoPorReservaDiaFestivo(Reserva reserva){
         List<LocalDate> retornaDiasFestivos = listaDiasFestivo();
         if(retornaDiasFestivos.contains(reserva.getFechaReserva().toLocalDate())){
             valorReserva = reserva.getValorReserva() * TARIFA_DIAS_FESTIVOS;
