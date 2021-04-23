@@ -22,7 +22,7 @@ public class ServicioCrearReservaTest {
         Reserva reserva = new ReservaTestDataBuilder().
                                 porFechaReserva(
                                         LocalDateTime.now().
-                                                plusDays(1)).
+                                                plusDays(3)).
                                                 build();
         RepositorioReserva repoReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repoReserva.existe(Mockito.anyString())).thenReturn(true);
@@ -39,7 +39,7 @@ public class ServicioCrearReservaTest {
         Reserva reserva = new ReservaTestDataBuilder().
                                 porFechaReserva(
                                         LocalDateTime.now().
-                                                plusDays(1)).
+                                                plusDays(3)).
                                         build();
         RepositorioReserva repositorioReserva = Mockito.mock(RepositorioReserva.class);
         Mockito.when(repositorioReserva.existe("Sergio Jaramillo Orozco")).thenReturn(true);
@@ -208,7 +208,7 @@ public class ServicioCrearReservaTest {
                 porFechaReserva(LocalDateTime.of(
                         LocalDateTime.now().getYear(),
                         LocalDateTime.now().getMonth(),
-                        LocalDateTime.now().getDayOfMonth() + 1,
+                        LocalDateTime.now().getDayOfMonth() + 3,
                         LocalDateTime.now().getHour(),
                         LocalDateTime.now().getMinute(),
                         LocalDateTime.now().getSecond()
@@ -227,7 +227,7 @@ public class ServicioCrearReservaTest {
                 porFechaReserva(LocalDateTime.of(
                         LocalDateTime.now().getYear(),
                         LocalDateTime.now().getMonth(),
-                        LocalDateTime.now().getDayOfMonth() + 1,
+                        LocalDateTime.now().getDayOfMonth() + 3,
                         LocalDateTime.now().getHour(),
                         LocalDateTime.now().getMinute(),
                         LocalDateTime.now().getSecond()
