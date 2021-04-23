@@ -134,16 +134,16 @@ public class Reserva {
 
     private List<LocalDate> listaDiasFestivo(){
         List<LocalDate> diasFestivos = new ArrayList<>();
-        diasFestivos.add(LocalDate.of(2021, 05, 01));
-        diasFestivos.add(LocalDate.of(2021, 05, 17));
-        diasFestivos.add(LocalDate.of(2021, 06, 07));
-        diasFestivos.add(LocalDate.of(2021, 06, 14));
-        diasFestivos.add(LocalDate.of(2021, 07, 05));
-        diasFestivos.add(LocalDate.of(2021, 07, 20));
-        diasFestivos.add(LocalDate.of(2021, 8, 07));
+        diasFestivos.add(LocalDate.of(2021, 5, 1));
+        diasFestivos.add(LocalDate.of(2021, 5, 17));
+        diasFestivos.add(LocalDate.of(2021, 6, 7));
+        diasFestivos.add(LocalDate.of(2021, 6, 14));
+        diasFestivos.add(LocalDate.of(2021, 7, 5));
+        diasFestivos.add(LocalDate.of(2021, 7, 20));
+        diasFestivos.add(LocalDate.of(2021, 8, 7));
         diasFestivos.add(LocalDate.of(2021, 8, 16));
         diasFestivos.add(LocalDate.of(2021, 10, 18));
-        diasFestivos.add(LocalDate.of(2021, 11, 01));
+        diasFestivos.add(LocalDate.of(2021, 11, 1));
         diasFestivos.add(LocalDate.of(2021, 11, 15));
         diasFestivos.add(LocalDate.of(2021, 12, 8));
         diasFestivos.add(LocalDate.of(2021, 12, 25));
