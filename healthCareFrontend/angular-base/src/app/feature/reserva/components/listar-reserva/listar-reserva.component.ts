@@ -1,5 +1,4 @@
 import { ServicioDeNotificaciones } from './../../../../core/services/ServicioDeNotificaciones.service';
-import { ToastrService } from 'ngx-toastr';
 import { Reserva } from './../../shared/model/reserva';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,7 +14,7 @@ export class ListarReservaComponent implements OnInit {
 
   public listaDeReservas: Observable<Reserva[]>;
 
-  constructor(protected reservaService: ReservaService, private router: Router, private toastr: ToastrService, private servicioNotificaciones: ServicioDeNotificaciones) { }
+  constructor(protected reservaService: ReservaService, private router: Router, private servicioNotificaciones: ServicioDeNotificaciones) { }
 
   ngOnInit() {
     this.listaDeReservas = this.reservaService.consultar();
@@ -32,10 +31,6 @@ export class ListarReservaComponent implements OnInit {
   editar(reserva: Reserva){
     localStorage.setItem("idReserva", reserva.idReserva);
     this.router.navigate(['editar']);
-  }
-
-  touch(){
-    this.toastr.success('Tipped');
   }
 
 }
